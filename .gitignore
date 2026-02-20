@@ -1,0 +1,21 @@
+# Sensitive files
+.rancher_password
+
+# Backup files
+*.backup
+*.bak
+*.bak2
+
+# Log files
+setup-k8s-*.log
+
+# Certificates
+certs/
+
+# Kind cluster config
+kind-cluster.yaml
+
+# OS-specific files
+.DS_Store
+.AppleDouble
+._*
