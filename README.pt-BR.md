@@ -63,10 +63,10 @@ O script foi estruturado de forma modular. A função `main()` interpreta os arg
 ### Fluxo de Instalação
 
 ```
-Verificações do Sistema → Docker → sysctl → kubectl → Helm → Kind → Rancher CLI
+Verificações do Sistema → Docker → sysctl → kubectl → Helm → Kind
     → Certificados CA → Cluster Kind → Gateway API/NGF → cert-manager
     → CA Issuer → Rancher Server → /etc/hosts
-    → [Opcional] Monitoramento → [Opcional] Metrics Server
+    → [Opcional] Rancher CLI → [Opcional] Monitoramento → [Opcional] Metrics Server
 ```
 
 ### Estrutura de Diretórios
@@ -169,13 +169,13 @@ Execute sem argumentos para acessar o menu interativo completo (28 opções):
 ### Comandos CLI
 
 ```bash
-# Instalar apenas infraestrutura (ferramentas + cluster, etapas 1-9)
+# Instalar apenas infraestrutura (ferramentas + cluster, etapas 1-8)
 ./setup-kind-cluster.sh install-infra
 
-# Instalar apenas plataforma (Gateway, cert-manager, Rancher, etapas 10-14)
+# Instalar apenas plataforma (Gateway, cert-manager, Rancher, etapas 9-13)
 ./setup-kind-cluster.sh install-platform
 
-# Instalação completa (etapas 1-14)
+# Instalação completa (etapas 1-13)
 ./setup-kind-cluster.sh install-all
 
 # Instalação completa com stack de monitoramento

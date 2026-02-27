@@ -889,26 +889,26 @@ install_rancher_cli() {
     # verify_download_integrity() with the expected SHA256 hash.
     
     # Create temporary directory
-    mkdir -p "$temp_dir" || {
+    sudo mkdir -p "$temp_dir" || {
         echo_error "Failed to create temporary directory."
         exit 1
     }
     
     # Download and extract
-    curl -fsSL "$url" | tar -xzC "$temp_dir" --strip-components=1 || {
+    curl -fsSL "$url" | sudo tar -xzC "$temp_dir" --strip-components=1 || {
         echo_error "Failed to download and extract Rancher CLI."
-        rm -rf "$temp_dir"
+        sudo rm -rf "$temp_dir"
         exit 1
     }
     
     # Install
     sudo mv "$temp_dir/rancher" /usr/local/bin/ || {
         echo_error "Failed to install Rancher CLI."
-        rm -rf "$temp_dir"
+        sudo rm -rf "$temp_dir"
         exit 1
     }
     
-    rm -rf "$temp_dir" || echo_warn "Failed to clean up temporary directory."
+    sudo rm -rf "$temp_dir" || echo_warn "Failed to clean up temporary directory."
     
     echo_success "Rancher CLI installed successfully"
 }
@@ -2074,22 +2074,22 @@ show_menu() {
     echo -e "${COLOR_MENU_OPTION} 4) Install kubectl${COLOR_RESET}"
     echo -e "${COLOR_MENU_OPTION} 5) Install Helm${COLOR_RESET}"
     echo -e "${COLOR_MENU_OPTION} 6) Install Kind${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION} 7) Install Rancher CLI${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION} 8) Generate CA certificates${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION} 9) Create Kind cluster${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}10) Install Gateway API & NGF${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}11) Install cert-manager${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}12) Create local CA issuer${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}13) Install Rancher Server${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}14) Configure /etc/hosts${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION} 7) Generate CA certificates${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION} 8) Create Kind cluster${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION} 9) Install Gateway API & NGF${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}10) Install cert-manager${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}11) Create local CA issuer${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}12) Install Rancher Server${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}13) Configure /etc/hosts${COLOR_RESET}"
     echo
     echo -e "${COLOR_MENU_TITLE}Batch Operations:${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}15) Install infrastructure  (steps 1-9:  tools + cluster)${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}16) Install platform        (steps 10-14: Gateway, cert-manager, Rancher)${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}17) Install ALL             (steps 1-14: complete environment)${COLOR_RESET}"
-    echo -e "${COLOR_MENU_OPTION}18) Install complete        (steps 1-14 + monitoring)${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}14) Install infrastructure  (steps 1-8:  tools + cluster)${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}15) Install platform        (steps 9-13: Gateway, cert-manager, Rancher)${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}16) Install ALL             (steps 1-13: complete environment)${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}17) Install complete        (steps 1-13 + monitoring)${COLOR_RESET}"
     echo
     echo -e "${COLOR_MENU_TITLE}Optional Components:${COLOR_RESET}"
+    echo -e "${COLOR_MENU_OPTION}18) Install Rancher CLI${COLOR_RESET}"
     echo -e "${COLOR_MENU_OPTION}19) Install monitoring (Prometheus + Grafana)${COLOR_RESET}"
     echo -e "${COLOR_MENU_OPTION}20) Install Metrics Server${COLOR_RESET}"
     echo
@@ -2398,7 +2398,7 @@ parse_arguments() {
 # ==================== BATCH OPERATIONS ====================
 
 install_infra() {
-    echo_info "Installing infrastructure (steps 1-9: tools + Kind cluster)..."
+    echo_info "Installing infrastructure (steps 1-8: tools + Kind cluster)..."
     
     install_docker
     configure_docker_systemd
@@ -2406,7 +2406,6 @@ install_infra() {
     install_kubectl
     install_helm
     install_kind
-    install_rancher_cli
     generate_ca_certificates
     create_kind_cluster
     
@@ -2417,7 +2416,7 @@ install_infra() {
 }
 
 install_platform() {
-    echo_info "Installing platform (steps 10-14: Gateway API, cert-manager, Rancher)..."
+    echo_info "Installing platform (steps 9-13: Gateway API, cert-manager, Rancher)..."
     
     install_gateway_api
     install_cert_manager
@@ -2431,7 +2430,7 @@ install_platform() {
 }
 
 install_all() {
-    echo_info "Installing complete Kubernetes environment (steps 1-14)..."
+    echo_info "Installing complete Kubernetes environment (steps 1-13)..."
     
     install_infra
     install_platform
@@ -2463,18 +2462,18 @@ interactive_menu() {
             4) install_kubectl ;;
             5) install_helm ;;
             6) install_kind ;;
-            7) install_rancher_cli ;;
-            8) generate_ca_certificates ;;
-            9) create_kind_cluster ;;
-            10) install_gateway_api ;;
-            11) install_cert_manager ;;
-            12) create_local_ca_issuer ;;
-            13) install_rancher_server ;;
-            14) configure_hosts ;;
-            15) install_infra ;;
-            16) install_platform ;;
-            17) install_all ;;
-            18) install_full ;;
+            7) generate_ca_certificates ;;
+            8) create_kind_cluster ;;
+            9) install_gateway_api ;;
+            10) install_cert_manager ;;
+            11) create_local_ca_issuer ;;
+            12) install_rancher_server ;;
+            13) configure_hosts ;;
+            14) install_infra ;;
+            15) install_platform ;;
+            16) install_all ;;
+            17) install_full ;;
+            18) install_rancher_cli ;;
             19) install_monitoring ;;
             20) install_metrics_server ;;
             21) start_kind_cluster ;;

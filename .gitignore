@@ -7,7 +7,8 @@
 *.bak2
 
 # Log files
-setup-k8s-*.log
+*.log
+logs/
 
 # Certificates
 certs/

@@ -65,10 +65,10 @@ a specific component.
 ### Installation Flow
 
 ```
-System Checks → Docker → sysctl → kubectl → Helm → Kind → Rancher CLI
+System Checks → Docker → sysctl → kubectl → Helm → Kind
     → CA Certs → Kind Cluster → Gateway API/NGF → cert-manager
     → CA Issuer → Rancher Server → /etc/hosts
-    → [Optional] Monitoring → [Optional] Metrics Server
+    → [Optional] Rancher CLI → [Optional] Monitoring → [Optional] Metrics Server
 ```
 
 ### Directory Structure
@@ -171,13 +171,13 @@ Run without arguments to access the full interactive menu (28 options):
 ### CLI Commands
 
 ```bash
-# Install only infrastructure (tools + cluster, steps 1-9)
+# Install only infrastructure (tools + cluster, steps 1-8)
 ./setup-kind-cluster.sh install-infra
 
-# Install only platform (Gateway, cert-manager, Rancher, steps 10-14)
+# Install only platform (Gateway, cert-manager, Rancher, steps 9-13)
 ./setup-kind-cluster.sh install-platform
 
-# Full installation (steps 1-14)
+# Full installation (steps 1-13)
 ./setup-kind-cluster.sh install-all
 
 # Full installation with monitoring stack
