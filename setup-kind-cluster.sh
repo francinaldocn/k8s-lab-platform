@@ -776,8 +776,15 @@ install_kubectl() {
     # Verify checksum if available
     if curl -fsSL "${kubectl_url}.sha256" -o "${temp_file}.sha256" 2>/dev/null; then
         echo_info "Verifying kubectl checksum..."
-        if ! (cd /tmp && sha256sum -c "$(basename "$temp_file").sha256" 2>/dev/null); then
+        local expected actual
+        expected=$(cat "${temp_file}.sha256")
+        actual=$(sha256sum "$temp_file" | awk '{print $1}')
+
+        if [[ "$expected" != "$actual" ]]; then
             echo_error "kubectl checksum verification failed"
+            echo_error "Expected: $expected"
+            echo_error "Got:      $actual"
+            rm -f "$temp_file" "${temp_file}.sha256"
             exit 1
         fi
         echo_success "kubectl checksum verified"
